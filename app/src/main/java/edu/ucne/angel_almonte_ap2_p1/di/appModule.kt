@@ -1,4 +1,10 @@
 package edu.ucne.angel_almonte_ap2_p1.di
 
-class appModule {
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+
+@Module
+@InstallIn(SingletonComponent::class)
+object appModule {
 }
