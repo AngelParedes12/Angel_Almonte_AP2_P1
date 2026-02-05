@@ -31,5 +31,4 @@ fun  provideExamenDatabase(@ApplicationContext appContext: Context): appDataBase
     @Singleton
     fun provideBorraRepository(borraDao: BorrarDao) = BorraRepository(borraDao)
 
-
  }
