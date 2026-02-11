@@ -14,21 +14,23 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object appModule {
 
-@Provides
-@Singleton
-fun  provideExamenDatabase(@ApplicationContext appContext: Context): appDataBase {
-    return Room.databaseBuilder(
-        appContext,
-        appDataBase::class.java,
-        "examen.db"
-    ).fallbackToDestructiveMigration().build()
-
-}
-    @Provides
-    fun provideBorraDao(appDataBase: appDataBase) = appDataBase.BorrarDao()
-
     @Provides
     @Singleton
-    fun provideBorraRepository(borraDao: BorrarDao) = BorraRepository(borraDao)
+    fun provideExamenDatabase(@ApplicationContext appContext: Context): appDataBase {
+        return Room.databaseBuilder(
+            appContext,
+            appDataBase::class.java,
+            "examen.db"
+        ).fallbackToDestructiveMigration().build()
+    }
+}
 
- }
+//}
+//    @Provides
+//    fun provideBorraDao(appDataBase: appDataBase) = appDataBase.BorrarDao()
+//
+//    @Provides
+//    @Singleton
+//    fun provideBorraRepository(borraDao: BorrarDao) = BorraRepository(borraDao)
+//
+// }

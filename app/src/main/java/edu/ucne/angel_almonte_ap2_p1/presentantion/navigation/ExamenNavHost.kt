@@ -6,31 +6,31 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 
-@Composable
-fun ExamenNavHost(
-    navController: NavHostController = rememberNavController()
-) {
-    NavHost(
-        navController = navController,
-        startDestination = Screen.listScreen.route
-    ) {
-        composable<Screen.listScreen> {
-            ListScreen(
-                onAddTask = {
-                    navController.navigate(Screen.editScreen)
-                },
-                onEditTask = { id ->
-
-                }
-            )
-        }
-
-        composable<Screen.editScreen> {
-            EditScreen(
-                onBack = {
-                    navController.navigateUp()
-                }
-            )
-        }
-    }
-}
+//@Composable
+//fun ExamenNavHost(
+//    navController: NavHostController = rememberNavController()
+//) {
+//    NavHost(
+//        navController = navController,
+//        startDestination = Screen.listScreen.route
+//    ) {
+//        composable<Screen.listScreen> {
+//            ListScreen(
+//                onAddTask = {
+//                    navController.navigate(Screen.editScreen)
+//                },
+//                onEditTask = { id ->
+//
+//                }
+//            )
+//        }
+//
+//        composable<Screen.editScreen> {
+//            EditScreen(
+//                onBack = {
+//                    navController.navigateUp()
+//                }
+//            )
+//        }
+//    }
+//}
