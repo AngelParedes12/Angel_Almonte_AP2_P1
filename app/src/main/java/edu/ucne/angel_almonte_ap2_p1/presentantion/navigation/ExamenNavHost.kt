@@ -5,8 +5,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import edu.ucne.angel_almonte_ap2_p1.presentantion.list.listCervezaScreen
-
+import edu.ucne.angel_almonte_ap2_p1.presentantion.edit.EditCervezaScreen
+import edu.ucne.angel_almonte_ap2_p1.presentantion.list.ListCervezaScreen
 
 @Composable
 fun ExamenNavHost(
@@ -16,20 +16,19 @@ fun ExamenNavHost(
         navController = navController,
         startDestination = Screen.List
     ) {
-
         composable<Screen.List> {
-            listCervezaScreen(
-                onAddTask = {
+            ListCervezaScreen(
+                onAdd = {
                     navController.navigate(Screen.Edit(null))
                 },
-                onEditTask = { id ->
+                onEdit = { id ->
                     navController.navigate(Screen.Edit(id))
                 }
             )
         }
 
         composable<Screen.Edit> {
-            Screen.editCervezaScreen(
+            EditCervezaScreen(
                 onBack = {
                     navController.navigateUp()
                 }

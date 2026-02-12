@@ -1,9 +1,9 @@
 package edu.ucne.angel_almonte_ap2_p1.presentantion.list
 
-data class ListState(
+import edu.ucne.angel_almonte_ap2_p1.domain.model.Cerveza
+
+data class ListCervezaUiState(
     val isLoading: Boolean = false,
-    val items: List<> = emptyList(),
-    val searchQuery: String = "",
-    val totalCantidad: Int = 0,
-    val totalDinero: Double = 0.0
+    val cervezas: List<Cerveza> = emptyList(),
+    val message: String? = null
 )
