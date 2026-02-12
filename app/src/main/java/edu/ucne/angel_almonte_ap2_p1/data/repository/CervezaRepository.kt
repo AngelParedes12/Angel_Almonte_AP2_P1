@@ -1,10 +1,11 @@
 package edu.ucne.angel_almonte_ap2_p1.data.repository
 
-import androidx.constraintlayout.helper.widget.Flow
+import edu.ucne.angel_almonte_ap2_p1.domain.model.Cerveza
+import kotlinx.coroutines.flow.Flow
 
 interface CervezaRepository {
-    fun getAll(query: String?): Flow<List<CervezaRepository>>
-    suspend fun save(item: CervezaRepository)
-    suspend fun delete(item: CervezaRepository)
-    suspend fun find(id: Int): CervezaRepository?
+    fun getAll(query: String?): Flow<List<Cerveza>>
+    suspend fun save(cerveza: Cerveza)
+    suspend fun deleteById(id: Int)
+    suspend fun find(id: Int): Cerveza?
 }

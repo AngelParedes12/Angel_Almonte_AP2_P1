@@ -4,42 +4,56 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import edu.ucne.angel_almonte_ap2_p1.domain.usaCase.DeleteCervezaUseCase
-import edu.ucne.angel_almonte_ap2_p1.domain.usaCase.GetCervezaUseCase
+import edu.ucne.angel_almonte_ap2_p1.domain.usaCase.ObserveCervezasUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class listCervezaViewModel @Inject constructor(
-    private val deleteCervezaUseCase: DeleteCervezaUseCase,
-    private val getCervezaUseCase: GetCervezaUseCase
+class ListCervezaViewModel @Inject constructor(
+    private val observeCervezasUseCase: ObserveCervezasUseCase,
+    private val deleteCervezaUseCase: DeleteCervezaUseCase
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(listCervezaUiState())
-    val state = _state.asStateFlow()
+    private val _state = MutableStateFlow(ListCervezaUiState(isLoading = true))
+    val state: StateFlow<ListCervezaUiState> = _state.asStateFlow()
 
     init {
-        viewModelScope.launch {
-            getAll().collect { list -> _state.update { it.copy(items = list) } }
+        loadCervezas()
+    }
+
+    fun onEvent(event: ListCervezaUiEvent) {
+        when (event) {
+            ListCervezaUiEvent.Load -> loadCervezas()
+            is ListCervezaUiEvent.Delete -> onDelete(event.id)
+            is ListCervezaUiEvent.ShowMessage -> _state.update { it.copy(message = event.message) }
+            ListCervezaUiEvent.ClearMessage -> _state.update { it.copy(message = null) }
         }
     }
 
-    fun onEvent(event: listCervezaEvent) {
-        when(event) {
-            is listCervezaEvent.DescripcionChange -> _state.update { it.copy(descripcion = event.value) }
-            is listCervezaEvent.MontoChange -> _state.update { it.copy(monto = event.value) }
-            is listCervezaEvent.Delete -> viewModelScope.launch {
+    private fun loadCervezas() {
+        viewModelScope.launch {
+            _state.update { it.copy(isLoading = true) }
+            observeCervezasUseCase().collectLatest { list ->
+                _state.update {
+                    it.copy(
+                        isLoading = false,
+                        cervezas = list,
+                        message = null
+                    )
+                }
             }
-            listCervezaEvent.Save -> viewModelScope.launch {
-                val item = listCerveza(
-                    listCervezaId = _state.value.listCervezaId,
-                    descripcion = _state.value.descripcion,
-                    monto = _state.value.monto.toDoubleOrNull() ?: 0.0
-                )
-                saveUC(item)
-                _state.update { it.copy(isSaved = true) }
-            }
-            listCervezaEvent.New -> _state.update { it.copy(listCervezaId = null, descripcion = "", monto = "", isSaved = false) }
+        }
+    }
+
+    private fun onDelete(id: Int) {
+        viewModelScope.launch {
+            deleteCervezaUseCase(id)
+            onEvent(ListCervezaUiEvent.ShowMessage("Cerveza eliminada"))
         }
     }
 }
