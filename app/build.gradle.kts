@@ -59,6 +59,8 @@ dependencies {
     implementation("androidx.room:room-runtime:2.6.1")
     implementation(libs.androidx.compose.runtime)
     implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.navigation.compose)
     ksp("androidx.room:room-compiler:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
     implementation("com.google.dagger:hilt-android:2.51")

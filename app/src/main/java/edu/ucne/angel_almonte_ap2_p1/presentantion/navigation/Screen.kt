@@ -4,8 +4,8 @@ import kotlinx.serialization.Serializable
 
 sealed interface Screen {
     @Serializable
-    data object listScreen : Screen
+    data object listCervezaScreen : Screen
 
     @Serializable
-    data object editScreen : Screen
+    data object editCervezaScreen : Screen
 }
